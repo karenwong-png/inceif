@@ -867,22 +867,26 @@ section { padding: 100px 40px; position: relative; }
 .residences .section-head .kicker { color: var(--orange); }
 
 .res-tabs {
-  display: flex; justify-content: center; gap: 10px;
-  margin: 0 auto 50px; max-width: 820px; flex-wrap: wrap;
+  display: flex; justify-content: center; gap: 8px;
+  margin: 0 auto 50px; max-width: 100%; flex-wrap: nowrap;
   padding: 10px; background: rgba(255,255,255,0.06);
   border-radius: 100px; width: fit-content;
 }
 .res-tab {
-  padding: 16px 40px; border-radius: 100px;
-  font-size: 17px; font-weight: 600;
+  padding: 14px 28px; border-radius: 100px;
+  font-size: 16px; font-weight: 600; white-space: nowrap;
   border: none; background: transparent;
   color: rgba(250,247,242,0.7); cursor: pointer;
   transition: all 0.3s;
 }
 .res-tab.active { background: var(--orange); color: white; }
 .res-tab:hover:not(.active) { color: var(--paper); }
+/* Wrap to multiple rows only when there isn't room for a single row */
+@media (max-width: 1000px) {
+  .res-tabs { flex-wrap: wrap; max-width: 820px; }
+}
 @media (max-width: 560px) {
-  .res-tab { padding: 14px 28px; font-size: 15px; }
+  .res-tab { padding: 12px 22px; font-size: 14px; }
 }
 
 .res-panel { display: none; max-width: 1280px; margin: 0 auto; }
