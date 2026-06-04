@@ -1373,8 +1373,9 @@ section { padding: 100px 40px; position: relative; }
 .compare-table-wrap {
   max-width: 1200px; margin: 0 auto;
   background: white; border-radius: 24px;
-  overflow: hidden; box-shadow: var(--shadow-md);
+  overflow-x: auto; box-shadow: var(--shadow-md);
 }
+.compare-table-wrap table.compare { min-width: 900px; }
 table.compare {
   width: 100%; border-collapse: collapse;
 }
@@ -1412,6 +1413,7 @@ table.compare {
 @media (max-width: 768px) {
   /* Stack the comparison table into cards so nothing is cut off */
   .compare-table-wrap { background: transparent; box-shadow: none; border-radius: 0; overflow: visible; }
+  .compare-table-wrap table.compare { min-width: 0; }
   table.compare, table.compare tbody { display: block; width: 100%; }
   table.compare thead { display: none; }
   table.compare tr {
@@ -1439,8 +1441,10 @@ table.compare {
     text-transform: uppercase; letter-spacing: 0.06em;
     color: var(--orange-deep);
   }
-  table.compare tbody td:nth-child(2)::before { content: 'Vivo Executive Apartment'; }
-  table.compare tbody td:nth-child(3)::before { content: 'Vertu Resort'; }
+  table.compare tbody td:nth-child(2)::before { content: 'Rica Residence Sentul'; }
+  table.compare tbody td:nth-child(3)::before { content: 'The Birch'; }
+  table.compare tbody td:nth-child(4)::before { content: 'Duta Park Residences'; }
+  table.compare tbody td:nth-child(5)::before { content: 'Unio Residence @ Kepong'; }
   table.compare tbody td[colspan]::before { content: none; }
   table.compare tbody tr td:last-child { border-bottom: none; }
   .compare .num-cell { font-size: 20px; }
@@ -2460,77 +2464,70 @@ footer {
   <div class="section-head">
     <div class="kicker">Side by Side</div>
     <h2>Compare your <em>options.</em></h2>
-    <p>A quick look at how the two residences stack up.</p>
+    <p>A quick look at how the four residences stack up.</p>
   </div>
   <div class="compare-table-wrap">
     <table class="compare">
       <thead>
         <tr>
           <th>Detail</th>
-          <th>Vivo Executive Apartment <span class="tag">Executive · Smart Living</span></th>
-          <th>Vertu Resort <span class="tag">Resort-style</span></th>
+          <th>Rica Residence Sentul <span class="tag">Sentul</span></th>
+          <th>The Birch <span class="tag">Jalan Ipoh</span></th>
+          <th>Duta Park Residences <span class="tag">Sentul</span></th>
+          <th>Unio Residence @ Kepong <span class="tag">Kepong</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Community Atmosphere</td>
-          <td>Executive, smart, work-life harmony.</td>
-          <td>Resort-style, vibrant, diverse.</td>
+          <td>Connected city living in Sentul.</td>
+          <td>Vibrant &amp; central, on Jalan Ipoh.</td>
+          <td>Close-to-campus convenience in Sentul.</td>
+          <td>Modern &amp; spacious in Kepong.</td>
         </tr>
         <tr>
           <td>Distance from Inceif University</td>
-          <td><span class="num-cell">3.5 km</span><br><span style="font-size:12px;color:var(--ink-soft);opacity:0.7;">about a 6-min drive</span></td>
-          <td><span class="num-cell">2.8 km</span><br><span style="font-size:12px;color:var(--ink-soft);opacity:0.7;">about a 5-min drive</span></td>
+          <td><span class="num-cell">2.0 km</span><br><span class="td-sub">~5-min drive</span></td>
+          <td><span class="num-cell">2.0 km</span><br><span class="td-sub">~5-min drive</span></td>
+          <td><span class="num-cell">1.3 km</span><br><span class="td-sub">~4-min drive</span></td>
+          <td><span class="num-cell">7.0 km</span><br><span class="td-sub">~15-min drive</span></td>
         </tr>
         <tr>
-          <td>Total Units</td>
-          <td><span class="num-cell">1,530</span></td>
-          <td><span class="num-cell">1,282</span></td>
-        </tr>
-        <tr>
-          <td>Unit Sizes</td>
-          <td>730 – 830 sq ft</td>
-          <td>1,030 – 1,800 sq ft</td>
-        </tr>
-        <tr>
-          <td>Room Pricing <span class="td-sub">per month</span></td>
+          <td>Room Pricing <span class="td-sub">per month, from</span></td>
           <td><ul>
-            <li>Mini Single — RM560</li>
-            <li>Single — RM610</li>
-            <li>Queen — RM660</li>
-            <li>Balcony — RM660</li>
-            <li>Queen Private — RM760</li>
+            <li>Master — RM1,100</li>
+            <li>Queen Balcony — RM850</li>
+            <li>Queen — RM800</li>
+            <li>Single — RM650–700</li>
           </ul></td>
           <td><ul>
-            <li>Mini Single — RM560</li>
-            <li>Single — RM610</li>
-            <li>Queen — RM660</li>
-            <li>Balcony — RM710</li>
-            <li>Queen Private — RM810</li>
+            <li>Master — RM1,100</li>
+            <li>Queen Balcony — RM850</li>
+            <li>Queen — RM800</li>
+            <li>Single — RM700</li>
+          </ul></td>
+          <td><ul>
+            <li>Master — RM1,100</li>
+            <li>Queen — RM800</li>
+            <li>Single — RM700</li>
+          </ul></td>
+          <td><ul>
+            <li>Master — RM1,100</li>
+            <li>Queen Balcony — RM850</li>
+            <li>Single — RM700</li>
+            <li>Mini Single — RM650</li>
           </ul></td>
         </tr>
         <tr>
           <td>Key Facilities</td>
-          <td><ul>
-            <li>50m Lap Pool</li>
-            <li>Gym, Yoga & Sauna</li>
-            <li>Half Basketball Court</li>
-            <li>BBQ Pavilion & Urban Farming</li>
-            <li>Co-working Space & Social Kitchen</li>
-            <li>EV Charging, 24-hour security</li>
-          </ul></td>
-          <td><ul>
-            <li>Infinity & Children's Pool</li>
-            <li>Yoga Deck, Sky Lounge</li>
-            <li>Tennis & Basketball Court</li>
-            <li>Sauna, Library, Sky Garden</li>
-            <li>Reflexology Path</li>
-            <li>24-hour security</li>
-          </ul></td>
+          <td><ul><li>Sauna</li><li>Gym</li><li>BBQ Area</li></ul></td>
+          <td><ul><li>Swimming Pool</li><li>Gym</li><li>BBQ Area</li></ul></td>
+          <td><ul><li>Swimming Pool</li><li>Reading Lounge</li><li>Gym</li></ul></td>
+          <td><ul><li>Games Room</li><li>Hot Dip Pool</li><li>Floating Gym</li></ul></td>
         </tr>
         <tr>
           <td>Accessibility</td>
-          <td colspan="2">Well-connected — near IKEA Batu Kawan, Klippa Shopping Centre, Penang Second Bridge, North–South Expressway and Penang International Airport.</td>
+          <td colspan="4">All four are well-connected within Kuala Lumpur — close to KTM/LRT/MRT stations, major roads (Jalan Kuching, DUKE, MRR2) and the city centre.</td>
         </tr>
       </tbody>
     </table>
@@ -2586,8 +2583,10 @@ footer {
       <label class="calc-field">
         <span>Residence</span>
         <select id="calc-condo">
-          <option value="vivo">Vivo Executive Apartment</option>
-          <option value="vertu">Vertu Resort</option>
+          <option value="rica">Rica Residence Sentul</option>
+          <option value="birch">The Birch</option>
+          <option value="duta">Duta Park Residences</option>
+          <option value="unio">Unio Residence @ Kepong</option>
         </select>
       </label>
       <label class="calc-field">
@@ -2642,38 +2641,52 @@ const tabs = document.querySelectorAll('.res-tab');
 const panels = document.querySelectorAll('.res-panel');
 const roomsStrip = document.getElementById('rooms-strip');
 
+// Room images currently reuse each condo's building photo as a placeholder —
+// swap in per-room bedroom photos when available. Prices per BeLive (RM/month).
 const roomData = {
-  vivo: {
-    label: 'Vivo',
+  rica: {
+    label: 'Rica Residence Sentul',
     rooms: [
-      { name: 'Mini Single Bedroom', size: '80 – 100 sq ft',  now: 'RM560', img: 'VT_Single_Room.png' },
-      { name: 'Single Bedroom',      size: '100 – 130 sq ft', now: 'RM610', img: 'Vivo_Single_Room.png' },
-      { name: 'Queen Bedroom',       size: '130 – 160 sq ft', now: 'RM660', img: 'Vivo_Queen.png' },
-      { name: 'Balcony Bedroom',     size: '120 – 150 sq ft', now: 'RM660', img: 'VT_Balcony_Room.png' },
-      { name: 'Queen Private',       size: '150 – 200 sq ft', now: 'RM760', img: 'Vivo_Master.png' },
-    ],
-    common: [
-      { img: 'Vivo_Common_Area.png', label: 'Common Area', alt: 'Vivo common area lounge' },
-      { img: 'Vivo_Kitchen.png',     label: 'Kitchen',     alt: 'Vivo shared kitchen' },
-      { img: 'Vivo_Yard.png',        label: 'Yard',        alt: 'Vivo outdoor yard' },
+      { name: 'Master Room',          rent: 1100, disp: 'RM1,100',     img: 'rica_condo1.jpg' },
+      { name: 'Queen Balcony Bedroom', rent: 850, disp: 'RM850',       img: 'rica_condo1.jpg' },
+      { name: 'Queen Bedroom',         rent: 800, disp: 'RM800',       img: 'rica_condo1.jpg' },
+      { name: 'Single Bedroom',        rent: 650, disp: 'RM650 – 700', img: 'rica_condo1.jpg' },
     ],
   },
-  vertu: {
-    label: 'Vertu',
+  birch: {
+    label: 'The Birch',
     rooms: [
-      { name: 'Mini Single Bedroom', size: '80 – 100 sq ft',  now: 'RM560', img: 'VT_Single_Room.png' },
-      { name: 'Single Bedroom',      size: '100 – 130 sq ft', now: 'RM610', img: 'VT_Middle_Single_Room.png' },
-      { name: 'Queen Bedroom',       size: '130 – 160 sq ft', now: 'RM660', img: 'VT_Master.png' },
-      { name: 'Balcony Bedroom',     size: '120 – 150 sq ft', now: 'RM710', img: 'VT_Balcony_Room.png' },
-      { name: 'Queen Private',       size: '150 – 200 sq ft', now: 'RM810', img: 'VT_Supreme_Master.png' },
+      { name: 'Master Room',           rent: 1100, disp: 'RM1,100', img: 'TB_condo.png' },
+      { name: 'Queen Balcony Bedroom',  rent: 850, disp: 'RM850',   img: 'TB_condo.png' },
+      { name: 'Queen Bedroom',          rent: 800, disp: 'RM800',   img: 'TB_condo.png' },
+      { name: 'Single Bedroom',         rent: 700, disp: 'RM700',   img: 'TB_condo.png' },
     ],
-    common: [
-      { img: 'Common_Area.png',   label: 'Common Area', alt: 'Vertu common area lounge' },
-      { img: 'Vertu_Kitchen.png', label: 'Kitchen',     alt: 'Vertu shared kitchen' },
-      { img: 'Common_Area3.JPG',  label: 'Yard',        alt: 'Vertu outdoor yard' },
+  },
+  duta: {
+    label: 'Duta Park Residences',
+    rooms: [
+      { name: 'Master Room',   rent: 1100, disp: 'RM1,100', img: 'duta_park_condo.jpg' },
+      { name: 'Queen Bedroom',  rent: 800, disp: 'RM800',   img: 'duta_park_condo.jpg' },
+      { name: 'Single Bedroom', rent: 700, disp: 'RM700',   img: 'duta_park_condo.jpg' },
     ],
-  }
+  },
+  unio: {
+    label: 'Unio Residence @ Kepong',
+    rooms: [
+      { name: 'Master Room',           rent: 1100, disp: 'RM1,100', img: 'UNIO_condo.jpg' },
+      { name: 'Queen Balcony Bedroom',  rent: 850, disp: 'RM850',   img: 'UNIO_condo.jpg' },
+      { name: 'Single Bedroom',         rent: 700, disp: 'RM700',   img: 'UNIO_condo.jpg' },
+      { name: 'Mini Single Bedroom',    rent: 650, disp: 'RM650',   img: 'UNIO_condo.jpg' },
+    ],
+  },
 };
+
+// Generic shared-space photos for the "Beyond Your Room" strip (not condo-specific).
+const commonGeneric = [
+  { img: 'Vivo_Common_Area.png', label: 'Common Lounge',  alt: 'BeLive shared lounge' },
+  { img: 'Vivo_Kitchen.png',     label: 'Shared Kitchen', alt: 'BeLive shared kitchen' },
+  { img: 'Vivo_Yard.png',        label: 'Laundry Yard',   alt: 'BeLive laundry yard' },
+];
 
 function renderRooms(key) {
   const d = roomData[key];
@@ -2682,19 +2695,18 @@ function renderRooms(key) {
       <div class="room-img"><img src="${r.img}" alt="${r.name}"></div>
       <div class="room-body">
         <div class="rt">${r.name}</div>
-        <div class="rsize">${r.size}</div>
+        ${r.size ? `<div class="rsize">${r.size}</div>` : ''}
         <div class="rprice">
-          ${r.old ? `<span class="old">${r.old}</span>` : ''}
-          <span class="now">${r.now}</span>
+          <span class="per">from</span>
+          <span class="now">${r.disp}</span>
           <span class="per">/ month</span>
         </div>
-        ${r.old ? '<span class="promo">Limited Time</span>' : ''}
         <a href="https://bit.ly/vitrox_enquiry" target="_blank" rel="noopener" class="room-cta">Book This Room <span class="arrow">→</span></a>
       </div>
     </div>
   `).join('');
   roomsStrip.innerHTML = `
-    <h3>BeLive <em>rooms</em> — modern & furnished</h3>
+    <h3>${d.label} <em>rooms</em> — modern & furnished</h3>
     <p class="rooms-desc">Move in with just your suitcase. Every BeLive room comes fully furnished and tech-ready — thoughtfully fitted out for comfortable study, rest and everyday living, with no extra setup or hidden furnishing costs.</p>
     <div class="rooms-included">
       <span class="ri-intro">Every room includes:</span>
@@ -2716,16 +2728,17 @@ function renderRooms(key) {
     </div>
   `;
   initRoomsCarousel(d.rooms.length);
+}
 
+function renderCommon() {
   const commonGrid = document.getElementById('common-grid');
-  if (commonGrid && d.common) {
-    commonGrid.innerHTML = d.common.map(c => `
-      <div class="common-card">
-        <div class="common-img"><img src="${c.img}" alt="${c.alt}"></div>
-        <div class="common-label">${c.label}</div>
-      </div>
-    `).join('');
-  }
+  if (!commonGrid) return;
+  commonGrid.innerHTML = commonGeneric.map(c => `
+    <div class="common-card">
+      <div class="common-img"><img src="${c.img}" alt="${c.alt}"></div>
+      <div class="common-label">${c.label}</div>
+    </div>
+  `).join('');
 }
 
 let roomsCarouselResizeHandler = null;
@@ -2768,9 +2781,6 @@ function initRoomsCarousel(total) {
 function activateResidence(key) {
   tabs.forEach(x => x.classList.toggle('active', x.dataset.tab === key));
   panels.forEach(p => p.classList.toggle('active', p.dataset.panel === key));
-  // Rooms strip is a generic "BeLive rooms" display, decoupled from the
-  // residence tabs (per-condo room data not yet available). Only re-render
-  // when a matching dataset exists.
   if (roomData[key]) renderRooms(key);
 }
 tabs.forEach(t => {
@@ -2788,7 +2798,8 @@ document.addEventListener('click', e => {
 });
 
 // Initial render
-renderRooms('vivo');
+renderRooms('rica');
+renderCommon();
 
 // --- Payment calculator ---
 (function initPaymentCalculator() {
@@ -2798,7 +2809,12 @@ renderRooms('vivo');
   const breakdown = document.getElementById('calc-breakdown');
   if (!condoSel || !roomSel || !carparkSel || !breakdown) return;
 
-  const condoLabels = { vivo: 'Vivo Executive Apartment', vertu: 'Vertu Resort' };
+  const condoLabels = {
+    rica: 'Rica Residence Sentul',
+    birch: 'The Birch',
+    duta: 'Duta Park Residences',
+    unio: 'Unio Residence @ Kepong',
+  };
   const FEES = {
     feeToSecure: 430.92,
     smartMoveIn: 140.40,
@@ -2806,11 +2822,11 @@ renderRooms('vivo');
     accessCard: 150,
   };
   const fmt = (n) => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const rentOf = (room) => parseFloat(String(room.now).replace(/[^0-9.]/g, '')) || 0;
+  const rentOf = (room) => room.rent || 0;
 
   function populateRooms() {
     const rooms = roomData[condoSel.value].rooms;
-    roomSel.innerHTML = rooms.map((r, i) => `<option value="${i}">${r.name} — ${r.now}/mo</option>`).join('');
+    roomSel.innerHTML = rooms.map((r, i) => `<option value="${i}">${r.name} — from ${r.disp}/mo</option>`).join('');
   }
 
   function render() {
