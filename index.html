@@ -2129,7 +2129,7 @@ footer {
         <div id="vitrox-map" role="application" aria-label="Map of Inceif University and surrounding residences and amenities"></div>
         <div class="map-overlay map-overlay-top">
           <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 km</strong> &amp; <strong>10 km</strong> catchment</span>
-          <span class="map-stat-chip"><span class="chip-dot"></span><strong>City centre</strong> Jalan Tun Ismail</span>
+          <span class="map-stat-chip"><span class="chip-dot"></span><strong>Central</strong> Kuala Lumpur</span>
           <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 min</strong> to Hospital Kuala Lumpur</span>
         </div>
         <div class="map-overlay map-overlay-bottom">
@@ -2823,9 +2823,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 window.addEventListener('load', () => {
   if (typeof L === 'undefined') return;
 
-  // Subject: Inceif University — Jalan Tun Ismail, 50480 Kuala Lumpur.
+  // Subject: Inceif University — central Kuala Lumpur (Google Plus Code 5M6R+29, off Jalan Raja Laut / Jalan Tun Ismail).
   // NOTE: surrounding coordinates are approximate (KL city-centre landmarks).
-  const INCEIF = [3.17150, 101.69380];
+  const INCEIF = [3.16006, 101.69094];
 
   const CATEGORIES = {
     residence: {
@@ -2858,7 +2858,7 @@ window.addEventListener('load', () => {
 
   const PLACES = [
     // Residences
-    { cat:'residence',  name:'Inceif University',                    desc:'Your campus — the ★ subject property on Jalan Tun Ismail.', coords:INCEIF, home:true },
+    { cat:'residence',  name:'Inceif University',                    desc:'Your campus — the ★ subject property in central Kuala Lumpur.', coords:INCEIF, home:true },
     { cat:'residence',  name:'Titiwangsa Sentral',                   desc:'Transit-linked condo beside Titiwangsa lake & LRT/MRT.', coords:[3.17560, 101.70080] },
     { cat:'residence',  name:'d6 Sentul East',                       desc:'Lifestyle residences in the Sentul East regeneration.', coords:[3.18320, 101.69240] },
     { cat:'residence',  name:'The Maple Sentul',                     desc:'Family residences within Sentul Park greenery.', coords:[3.18820, 101.69280] },
