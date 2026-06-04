@@ -2120,7 +2120,7 @@ footer {
   <div class="map-wrap">
     <div class="map-header">
       <span class="market-badge">Market Insights</span>
-      <h2 class="catchment-title">Catchment Map · <em>Batu Kawan</em></h2>
+      <h2 class="catchment-title">Catchment Map · <em>Kuala Lumpur</em></h2>
       <p class="catchment-sub">Everything around Inceif University — at a glance.</p>
     </div>
 
@@ -2129,8 +2129,8 @@ footer {
         <div id="vitrox-map" role="application" aria-label="Map of Inceif University and surrounding residences and amenities"></div>
         <div class="map-overlay map-overlay-top">
           <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 km</strong> &amp; <strong>10 km</strong> catchment</span>
-          <span class="map-stat-chip"><span class="chip-dot"></span><strong>2</strong> residences nearby</span>
-          <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 min</strong> to UOW KDU Penang</span>
+          <span class="map-stat-chip"><span class="chip-dot"></span><strong>City centre</strong> Jalan Tun Ismail</span>
+          <span class="map-stat-chip"><span class="chip-dot"></span><strong>5 min</strong> to Hospital Kuala Lumpur</span>
         </div>
         <div class="map-overlay map-overlay-bottom">
           <div class="map-legend-card">
@@ -2823,100 +2823,97 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 window.addEventListener('load', () => {
   if (typeof L === 'undefined') return;
 
-  const VITROX = [5.22636, 100.44231];
+  // Subject: Inceif University — Jalan Tun Ismail, 50480 Kuala Lumpur.
+  // NOTE: surrounding coordinates are approximate (KL city-centre landmarks).
+  const INCEIF = [3.17150, 101.69380];
 
   const CATEGORIES = {
     residence: {
       label: 'Residences', icon: '🏠', color: '#FF6B1A',
-      places: 'Inceif University (★) · Vivo Executive Apartment · Vertu Resort',
-      stat: '<strong>Subject + 2</strong> beLive co-living residences',
+      places: 'Inceif University (★) · Titiwangsa Sentral · d6 Sentul East · The Maple Sentul · Setia Sky Residences',
+      stat: '<strong>City-centre campus</strong> with student living all around',
       defaultOn: true,
     },
     education: {
       label: 'Education', icon: '🎓', color: '#0F766E',
-      places: 'UOW KDU Penang · Peninsula College · USM Engineering · The One Academy · Han Chiang · SMK & SJK(C) schools',
-      stat: '<strong>25,000+</strong> students & lecturers',
+      places: 'UTM Kuala Lumpur · TAR UMT · IIUM Gombak · Universiti Malaya · SEGi College KL · Methodist College',
+      stat: '<strong>100,000+</strong> students across KL campuses',
     },
     healthcare: {
       label: 'Healthcare', icon: '⚕️', color: '#DC2626',
-      places: 'BP Healthcare · Mediviron · Klinik Kesihatan Bandar Cassia · Hospital Sungai Bakap · Columbia Asia BM',
-      stat: '<strong>5 hospitals & clinics</strong> within reach',
+      places: 'Hospital Kuala Lumpur · National Heart Institute (IJN) · KPJ Tawakkal · Gleneagles KL · Prince Court · Pusrawi',
+      stat: '<strong>Top hospitals</strong> minutes away',
     },
     commercial: {
       label: 'Commercial', icon: '🛍️', color: '#14B8A6',
-      places: "IKEA · Klippa · Vervea · Design Village · Aspen Vision retail · McDonald's · Starbucks · 99 Speedmart",
-      stat: '<strong>3,000+</strong> retail & F&B outlets',
+      places: 'Sunway Putra Mall · Quill City Mall · Sogo KL · Suria KLCC · Pavilion KL · Berjaya Times Square · Chow Kit Market',
+      stat: '<strong>Malls, markets & F&B</strong> all around',
     },
     industrial: {
-      label: 'Industrial', icon: '🏭', color: '#F59E0B',
-      places: 'BKIP · Penang Science Park · ViTrox HQ · Bosch · HPE · SanDisk · SK Hynix · AT&S · Plexus',
-      stat: '<strong>40,000+</strong> industrial workforce',
+      label: 'Business & Finance', icon: '🏦', color: '#F59E0B',
+      places: 'Bank Negara Malaysia · KLCC · Tun Razak Exchange (TRX) · KL Sentral · PWTC · Menara Maybank · Tabung Haji',
+      stat: "<strong>KL's financial & business core</strong>",
     },
   };
 
   const PLACES = [
     // Residences
-    { cat:'residence',  name:'Inceif University',                       desc:'Your campus — the ★ subject property.', coords:VITROX, home:true },
-    { cat:'residence',  name:'Vivo Executive Apartment',             desc:'Aspen Vision City — co-working space & social kitchen.', coords:[5.2313817, 100.4326006], dist:3.5, tab:'vivo' },
-    { cat:'residence',  name:'Vertu Resort',                         desc:'Resort-style towers with 50+ facilities.', coords:[5.2380625, 100.4376875], dist:2.8, tab:'vertu' },
+    { cat:'residence',  name:'Inceif University',                    desc:'Your campus — the ★ subject property on Jalan Tun Ismail.', coords:INCEIF, home:true },
+    { cat:'residence',  name:'Titiwangsa Sentral',                   desc:'Transit-linked condo beside Titiwangsa lake & LRT/MRT.', coords:[3.17560, 101.70080] },
+    { cat:'residence',  name:'d6 Sentul East',                       desc:'Lifestyle residences in the Sentul East regeneration.', coords:[3.18320, 101.69240] },
+    { cat:'residence',  name:'The Maple Sentul',                     desc:'Family residences within Sentul Park greenery.', coords:[3.18820, 101.69280] },
+    { cat:'residence',  name:'Setia Sky Residences',                 desc:'High-rise living on Jalan Tun Razak.', coords:[3.16480, 101.71960] },
 
     // Education
-    { cat:'education',  name:'UOW Malaysia KDU Penang',              desc:'University college campus next door.', coords:[5.2208, 100.4395] },
-    { cat:'education',  name:'Peninsula College — The Ship Campus',  desc:'Higher-ed campus minutes away.', coords:[5.2095, 100.4395] },
-    { cat:'education',  name:'USM Engineering Campus',               desc:'Universiti Sains Malaysia — Nibong Tebal.', coords:[5.1480, 100.4940] },
-    { cat:'education',  name:'The One Academy Penang',               desc:'Creative arts & design academy at Aspen Vision City.', coords:[5.2175, 100.4310] },
-    { cat:'education',  name:'SMK Bandar Cassia',                    desc:'National secondary school in the township.', coords:[5.2240, 100.4420] },
-    { cat:'education',  name:'SJK(C) Khye Hean',                     desc:'Chinese vernacular primary school.', coords:[5.2255, 100.4280] },
-    { cat:'education',  name:'SK Bandar Cassia',                     desc:'National primary school for the township.', coords:[5.2225, 100.4438] },
-    { cat:'education',  name:'Han Chiang High School Bandar Cassia', desc:'Renowned independent Chinese high school.', coords:[5.2300, 100.4365] },
+    { cat:'education',  name:'UTM Kuala Lumpur',                     desc:'Universiti Teknologi Malaysia — Jalan Semarak campus.', coords:[3.17350, 101.72150] },
+    { cat:'education',  name:'TAR UMT',                              desc:'Tunku Abdul Rahman University of Management & Tech, Setapak.', coords:[3.21480, 101.72700] },
+    { cat:'education',  name:'IIUM Gombak',                          desc:'International Islamic University Malaysia main campus.', coords:[3.24970, 101.73610] },
+    { cat:'education',  name:'Universiti Malaya (UM)',               desc:'Malaysia\'s oldest and top public university.', coords:[3.12090, 101.65380] },
+    { cat:'education',  name:'SEGi College Kuala Lumpur',            desc:'City-centre private college.', coords:[3.14800, 101.69700] },
+    { cat:'education',  name:'Methodist College Kuala Lumpur',       desc:'Established city college near Jalan Tun Ismail.', coords:[3.16400, 101.69600] },
+    { cat:'education',  name:"St. John's Institution",               desc:'Historic secondary school in the city centre.', coords:[3.15200, 101.69600] },
 
     // Healthcare
-    { cat:'healthcare', name:'BP Healthcare Centre — Batu Kawan',    desc:'Diagnostics and medical services.', coords:[5.2185, 100.4310] },
-    { cat:'healthcare', name:'Mediviron Clinic — Batu Kawan',        desc:'24-hour general practitioner clinic.', coords:[5.2168, 100.4322] },
-    { cat:'healthcare', name:'Klinik Kesihatan Bandar Cassia',       desc:'Government community health clinic.', coords:[5.2210, 100.4395] },
-    { cat:'healthcare', name:'Poliklinik Bandar Cassia',             desc:'General practice clinic in the township.', coords:[5.2228, 100.4350] },
-    { cat:'healthcare', name:'Hospital Sungai Bakap',                desc:'Government hospital south of Batu Kawan.', coords:[5.1395, 100.4985] },
-    { cat:'healthcare', name:'Klinik Kesihatan Sungai Bakap',        desc:'Government health clinic — Sungai Bakap.', coords:[5.1418, 100.4945] },
-    { cat:'healthcare', name:'Columbia Asia Hospital — Bukit Mertajam', desc:'Full-service private hospital (north of catchment).', coords:[5.3635, 100.4575] },
+    { cat:'healthcare', name:'Hospital Kuala Lumpur (HKL)',          desc:'Malaysia\'s largest public referral hospital.', coords:[3.17350, 101.70100] },
+    { cat:'healthcare', name:'Institut Jantung Negara (IJN)',        desc:'National Heart Institute.', coords:[3.17120, 101.69980] },
+    { cat:'healthcare', name:'KPJ Tawakkal Specialist Hospital',    desc:'Private specialist hospital on Jalan Pahang.', coords:[3.17580, 101.69380] },
+    { cat:'healthcare', name:'Gleneagles Hospital KL',               desc:'Private tertiary hospital, Ampang.', coords:[3.16200, 101.73000] },
+    { cat:'healthcare', name:'Prince Court Medical Centre',          desc:'Premium private hospital, Jalan Kia Peng.', coords:[3.15880, 101.72280] },
+    { cat:'healthcare', name:'Hospital Pusrawi',                     desc:'Private hospital near Jalan Tun Razak.', coords:[3.14500, 101.69580] },
 
     // Commercial
-    { cat:'commercial', name:'IKEA Batu Kawan',                      desc:'Only IKEA in the Northern Region.', coords:[5.2339, 100.4399] },
-    { cat:'commercial', name:'Klippa Shopping Centre',               desc:'1.6M sq ft retail anchored by IKEA.', coords:[5.2218, 100.4340] },
-    { cat:'commercial', name:'Vervea Trade & Exhibition Centre',     desc:'Shop offices, exhibition halls and dining.', coords:[5.2245, 100.4368] },
-    { cat:'commercial', name:'Penang Design Village',                desc:'Outlet mall — only one in Northern Region.', coords:[5.2300, 100.4480] },
-    { cat:'commercial', name:'Eco Meadows Commercial Centre',        desc:'Township shoplots — cafés, mart and services.', coords:[5.2055, 100.4310] },
-    { cat:'commercial', name:'Aspen Vision City Retail',             desc:'Lifestyle retail beside the residences.', coords:[5.2160, 100.4280] },
-    { cat:'commercial', name:"McDonald's Drive-thru IKEA",           desc:'24-hour drive-through next to IKEA.', coords:[5.2202, 100.4360] },
-    { cat:'commercial', name:'Starbucks IKEA Batu Kawan',            desc:'Coffee & study spot beside IKEA.', coords:[5.2208, 100.4352] },
-    { cat:'commercial', name:'Texas Chicken IKEA',                   desc:'Fast-food outlet inside the IKEA cluster.', coords:[5.2215, 100.4356] },
-    { cat:'commercial', name:'99 Speedmart Bandar Cassia',           desc:'Neighbourhood mini-market for daily essentials.', coords:[5.2238, 100.4395] },
+    { cat:'commercial', name:'Sunway Putra Mall',                    desc:'Major mall beside PWTC & Putra LRT.', coords:[3.16620, 101.69120] },
+    { cat:'commercial', name:'Quill City Mall',                      desc:'Lifestyle mall on Jalan Sultan Ismail.', coords:[3.16220, 101.69820] },
+    { cat:'commercial', name:'Sogo Kuala Lumpur',                    desc:'Department store on Jalan Tuanku Abdul Rahman.', coords:[3.15680, 101.69480] },
+    { cat:'commercial', name:'Suria KLCC',                           desc:'Flagship mall beneath the Petronas Towers.', coords:[3.15800, 101.71230] },
+    { cat:'commercial', name:'Pavilion Kuala Lumpur',                desc:'Premier Bukit Bintang shopping destination.', coords:[3.14900, 101.71300] },
+    { cat:'commercial', name:'Berjaya Times Square',                 desc:'Mega mall & indoor theme park.', coords:[3.14270, 101.71060] },
+    { cat:'commercial', name:'Chow Kit Market',                      desc:'KL\'s largest wet market for daily essentials.', coords:[3.16450, 101.69680] },
 
-    // Industrial
-    { cat:'industrial', name:'Batu Kawan Industrial Park (BKIP)',    desc:'Major industrial zone hosting global firms.', coords:[5.2055, 100.4490] },
-    { cat:'industrial', name:'Penang Science Park South',            desc:'Tech & precision manufacturing hub.', coords:[5.1990, 100.4420] },
-    { cat:'industrial', name:'ViTrox Corporation HQ',                desc:'Machine vision & ATE manufacturer — BKIP.', coords:[5.2068, 100.4495] },
-    { cat:'industrial', name:'Bosch Power Tools',                    desc:'Cordless tools manufacturing plant — BKIP.', coords:[5.2080, 100.4510] },
-    { cat:'industrial', name:'Hewlett Packard Enterprise',           desc:'Server & enterprise tech operations.', coords:[5.2110, 100.4530] },
-    { cat:'industrial', name:'SanDisk / Western Digital',            desc:'Memory storage manufacturing.', coords:[5.2030, 100.4475] },
-    { cat:'industrial', name:'SK Hynix',                             desc:'Semiconductor packaging facility.', coords:[5.2045, 100.4515] },
-    { cat:'industrial', name:'AT&S Penang',                          desc:'High-end IC substrate plant.', coords:[5.2095, 100.4540] },
-    { cat:'industrial', name:'Plexus Manufacturing',                 desc:'Engineering & manufacturing services.', coords:[5.2010, 100.4460] },
+    // Business & Finance
+    { cat:'industrial', name:'Bank Negara Malaysia',                 desc:'Central bank & Islamic-finance regulator.', coords:[3.15450, 101.69180] },
+    { cat:'industrial', name:'Petronas Twin Towers (KLCC)',          desc:'KLCC business & financial district.', coords:[3.15790, 101.71230] },
+    { cat:'industrial', name:'Tun Razak Exchange (TRX)',             desc:'KL\'s international financial district.', coords:[3.14200, 101.71900] },
+    { cat:'industrial', name:'KL Sentral',                           desc:'Transit hub & corporate office district.', coords:[3.13380, 101.68690] },
+    { cat:'industrial', name:'Putra World Trade Centre (PWTC)',      desc:'Convention & exhibition centre on Jalan Tun Ismail.', coords:[3.17270, 101.69350] },
+    { cat:'industrial', name:'Menara Maybank',                       desc:'Maybank headquarters tower.', coords:[3.14650, 101.70000] },
+    { cat:'industrial', name:'Bangunan Tabung Haji',                 desc:'Iconic Lembaga Tabung Haji HQ tower.', coords:[3.16220, 101.71650] },
   ];
 
-  const map = L.map('vitrox-map', { scrollWheelZoom: false, zoomControl: true }).setView(VITROX, 13);
+  const map = L.map('vitrox-map', { scrollWheelZoom: false, zoomControl: true }).setView(INCEIF, 13);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
   }).addTo(map);
 
   // Catchment rings around the subject — inner 5 km + outer 10 km
-  const ring5km = L.circle(VITROX, {
+  const ring5km = L.circle(INCEIF, {
     radius: 5000,
     color: '#FF6B1A', weight: 1.5, opacity: 0.55,
     fillColor: '#FF6B1A', fillOpacity: 0.05,
     dashArray: '6 8',
   }).addTo(map);
-  const ring10km = L.circle(VITROX, {
+  const ring10km = L.circle(INCEIF, {
     radius: 10000,
     color: '#FF6B1A', weight: 1.2, opacity: 0.35,
     fillColor: '#FF6B1A', fillOpacity: 0.02,
@@ -2933,8 +2930,8 @@ window.addEventListener('load', () => {
   }).addTo(map);
   // Compute label positions north of subject for each ring
   const metersPerDegLat = 111320;
-  ringLabel([VITROX[0] + 5000 / metersPerDegLat, VITROX[1]], '5 km');
-  ringLabel([VITROX[0] + 10000 / metersPerDegLat, VITROX[1]], '10 km');
+  ringLabel([INCEIF[0] + 5000 / metersPerDegLat, INCEIF[1]], '5 km');
+  ringLabel([INCEIF[0] + 10000 / metersPerDegLat, INCEIF[1]], '10 km');
 
   const makeIcon = (color, isHome) => L.divIcon({
     className: '',
@@ -2951,7 +2948,7 @@ window.addEventListener('load', () => {
     html: `<div class="map-pin-label"><span class="star">★</span> Inceif University</div>`,
     iconSize: [0, 0], iconAnchor: [-22, 8],
   });
-  L.marker(VITROX, { icon: subjectLabel, interactive: false, keyboard: false }).addTo(map);
+  L.marker(INCEIF, { icon: subjectLabel, interactive: false, keyboard: false }).addTo(map);
 
   const layers = {};
   Object.keys(CATEGORIES).forEach(k => { layers[k] = L.layerGroup(); });
@@ -2963,7 +2960,7 @@ window.addEventListener('load', () => {
     const marker = L.marker(p.coords, { icon: makeIcon(cat.color, !!p.home) });
     // Prefer an explicit (Google Maps) distance when provided; otherwise estimate straight-line.
     const distanceText = p.home ? null
-      : (p.dist != null ? `${p.dist} km` : `~${formatDistance(L.latLng(VITROX).distanceTo(L.latLng(p.coords)))}`);
+      : (p.dist != null ? `${p.dist} km` : `~${formatDistance(L.latLng(INCEIF).distanceTo(L.latLng(p.coords)))}`);
     marker.bindPopup(`
       <div class="pop-cat" style="color:${cat.color}">${cat.label}</div>
       <div class="pop-title">${p.name}</div>
@@ -3026,8 +3023,8 @@ window.addEventListener('load', () => {
   setVisibility();
 
   // Fit bounds to show subject + immediate residences with generous padding
-  // Fit to a 22 km square around Vitrox so the entire 10 km ring is comfortably visible
-  map.fitBounds(L.latLng(VITROX).toBounds(22000), { padding: [20, 20] });
+  // Fit to a 22 km square around Inceif so the entire 10 km ring is comfortably visible
+  map.fitBounds(L.latLng(INCEIF).toBounds(22000), { padding: [20, 20] });
 });
 </script>
 
