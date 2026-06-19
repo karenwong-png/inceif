@@ -1661,6 +1661,8 @@ table.compare {
   white-space: nowrap;
 }
 .leaflet-tooltip.dist-label::before { display: none; }
+/* Residence pins show their name in the brand orange */
+.leaflet-tooltip.name-label { background: #FF6B1A; }
 .leaflet-popup-content-wrapper {
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(14,14,16,0.18);
@@ -3078,10 +3080,16 @@ window.addEventListener('load', () => {
       ${distanceText ? `<div class="pop-distance"><span class="pop-distance-icon">↔</span> <strong>${distanceText}</strong> from INCEIF University</div>` : ''}
       ${p.tab ? `<a href="#residences" class="pop-cta" data-restab="${p.tab}">View More <span class="arrow">→</span></a>` : ''}
     `);
-    // Permanent distance pill above each pin
-    if (distanceText) {
-      marker.bindTooltip(distanceText, {
-        permanent: true, direction: 'top', className: 'dist-label',
+    // Permanent label above each pin: residences show their name (+ distance);
+    // other categories show the distance pill.
+    const isResidence = p.cat === 'residence' && !p.home;
+    const labelText = isResidence
+      ? `${p.name}${distanceText ? ' · ' + distanceText : ''}`
+      : distanceText;
+    if (labelText) {
+      marker.bindTooltip(labelText, {
+        permanent: true, direction: 'top',
+        className: isResidence ? 'dist-label name-label' : 'dist-label',
         offset: [0, -16], opacity: 1,
       });
     }
