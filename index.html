@@ -722,21 +722,21 @@ section { padding: 100px 40px; position: relative; }
 }
 
 /* Payment calculator */
-.calc-wrap { max-width: 1100px; margin: 0 auto; }
+.calc-wrap { max-width: 1200px; margin: 0 auto; }
 .calc-controls {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
   margin-bottom: 22px;
 }
 .calc-field { display: flex; flex-direction: column; gap: 8px; }
 .calc-field span {
-  font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--ink-soft); opacity: 0.75;
 }
 .calc-field select {
   appearance: none; -webkit-appearance: none;
-  font-family: inherit; font-size: 15px; font-weight: 500; color: var(--ink);
+  font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ink);
   background: white; border: 1.5px solid var(--line);
-  border-radius: 14px; padding: 14px 44px 14px 18px; cursor: pointer;
+  border-radius: 14px; padding: 12px 40px 12px 16px; cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23E5530A' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 16px center;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -754,7 +754,10 @@ section { padding: 100px 40px; position: relative; }
 .payment-row .pr-value.muted { color: var(--ink-soft); opacity: 0.7; font-weight: 500; }
 .payment-row.note { display: block; padding: 10px 28px 14px; }
 .payment-row.note .pr-foot { font-size: 12px; color: var(--ink-soft); opacity: 0.75; font-weight: 400; line-height: 1.5; }
-@media (max-width: 560px) {
+@media (max-width: 860px) {
+  .calc-controls { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
   .calc-controls { grid-template-columns: 1fr; }
 }
 
@@ -2605,10 +2608,17 @@ footer {
   <div class="section-head">
     <div class="kicker">Reference Calculation of Payment</div>
     <h2>What you actually <em>pay</em>.</h2>
-    <p>Pick your residence and room type for an estimated first-payment breakdown — based on a 12-month tenancy for local Malaysians, all SST-inclusive.</p>
+    <p>Pick your student type, residence and room type for an estimated first-payment breakdown — based on a 12-month tenancy, all SST-inclusive.</p>
   </div>
   <div class="calc-wrap">
     <div class="calc-controls">
+      <label class="calc-field">
+        <span>Student Type</span>
+        <select id="calc-student">
+          <option value="international">International Student</option>
+          <option value="local">Local Student</option>
+        </select>
+      </label>
       <label class="calc-field">
         <span>Residence</span>
         <select id="calc-condo">
@@ -2634,7 +2644,7 @@ footer {
     <p class="payment-disclaimer">
       <strong>Note:</strong> Prices are inclusive of 8% SST. Any adjustments or changes will be determined based on the monthly rental amount and the agreed rental terms.<br><br>
       <strong>Terms &amp; Conditions:</strong> Prices shown are for reference only. Figures are based on a <strong>12-month tenancy</strong>; tenancies of less than 12 months carry a different rental rate. Final figures will be confirmed by the BeLive team before signing.<br><br>
-      <strong>Local Tenants Only:</strong> This payment breakdown applies to local tenants. Non-local tenants, please speak to our team for the applicable rates.
+      <strong>Student Type:</strong> Local students enjoy an RM120 discount on the rental charges. Select your student type above for the applicable breakdown.
     </p>
   </div>
   <div class="section-cta-row">
@@ -2881,11 +2891,12 @@ renderCommon('rica');
 
 // --- Payment calculator ---
 (function initPaymentCalculator() {
+  const studentSel = document.getElementById('calc-student');
   const condoSel = document.getElementById('calc-condo');
   const roomSel = document.getElementById('calc-room');
   const carparkSel = document.getElementById('calc-carpark');
   const breakdown = document.getElementById('calc-breakdown');
-  if (!condoSel || !roomSel || !carparkSel || !breakdown) return;
+  if (!studentSel || !condoSel || !roomSel || !carparkSel || !breakdown) return;
 
   const condoLabels = {
     rica: 'Rica Residence Sentul',
@@ -2898,6 +2909,8 @@ renderCommon('rica');
     smartMoveIn: 140.40,
     carPark: 100,
     accessCard: 150,
+    rentalAddOn: 200,      // added to room price for all students
+    localDiscount: 120,    // deducted for local students
   };
   const fmt = (n) => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const rentOf = (room) => room.rent || 0;
@@ -2911,24 +2924,29 @@ renderCommon('rica');
     const rooms = roomData[condoSel.value].rooms;
     const room = rooms[roomSel.value] || rooms[0];
     const rent = rentOf(room);
+    const isLocal = studentSel.value === 'local';
+    const rentalCharges = rent + FEES.rentalAddOn;
+    const discount = isLocal ? FEES.localDiscount : 0;
     const wantsCarpark = carparkSel.value === 'yes';
     const carpark = wantsCarpark ? FEES.carPark : 0;
-    const unitCare = rent * 0.5 * 1.08;
-    const total = FEES.feeToSecure + FEES.smartMoveIn + rent + carpark + unitCare + FEES.accessCard;
+    const securityDeposit = rent * 0.5 * 1.08;   // based on room rental: 50% + 8% SST
+    const total = FEES.feeToSecure + FEES.smartMoveIn + rentalCharges - discount + carpark + securityDeposit + FEES.accessCard;
 
     breakdown.innerHTML = `
       <div class="payment-row group-head"><span class="pr-label">One-Time &amp; Monthly Fees</span></div>
       <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(FEES.feeToSecure + FEES.smartMoveIn)}</span></div>
-      <div class="payment-row"><div><span class="pr-label">Rental (Monthly)</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name}</span></div><span class="pr-value">${fmt(rent)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name} (room + RM200)</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
+      ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">Local student</span></div><span class="pr-value muted">− ${fmt(discount)}</span></div>` : ''}
       <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
       <div class="payment-row group-head"><span class="pr-label">Refundable</span></div>
-      <div class="payment-row"><div><span class="pr-label">Unit Care Commitment Fee</span><span class="pr-note">Refundable, incl. 8% SST</span></div><span class="pr-value">${fmt(unitCare)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Security Deposit</span><span class="pr-note">Room rental 50% + 8% SST, refundable</span></div><span class="pr-value">${fmt(securityDeposit)}</span></div>
       <div class="payment-row"><div><span class="pr-label">Access Card Deposit</span><span class="pr-note">Refundable</span></div><span class="pr-value">${fmt(FEES.accessCard)}</span></div>
       <div class="payment-row note"><span class="pr-foot">Refundable upon successful move-out inspection and subject to the tenancy agreement &amp; applicable T&amp;Cs.</span></div>
-      <div class="payment-row total"><div><span class="pr-label">Total First Payment</span><span class="pr-note">12-month tenancy · local Malaysian · incl. 8% SST</span></div><span class="pr-value">${fmt(total)}</span></div>
+      <div class="payment-row total"><div><span class="pr-label">Total First Payment</span><span class="pr-note">12-month tenancy · ${isLocal ? 'Local' : 'International'} student · incl. 8% SST</span></div><span class="pr-value">${fmt(total)}</span></div>
     `;
   }
 
+  studentSel.addEventListener('change', render);
   condoSel.addEventListener('change', () => { populateRooms(); render(); });
   roomSel.addEventListener('change', render);
   carparkSel.addEventListener('change', render);
