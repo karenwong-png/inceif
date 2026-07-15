@@ -2935,7 +2935,7 @@ renderCommon('rica');
     breakdown.innerHTML = `
       <div class="payment-row group-head"><span class="pr-label">One-Time &amp; Monthly Fees</span></div>
       <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(FEES.feeToSecure + FEES.smartMoveIn)}</span></div>
-      <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name} (room + RM200)</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name}</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
       ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">Local student</span></div><span class="pr-value muted">− ${fmt(discount)}</span></div>` : ''}
       <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
       <div class="payment-row group-head"><span class="pr-label">Refundable</span></div>
