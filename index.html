@@ -752,6 +752,7 @@ section { padding: 100px 40px; position: relative; }
   text-transform: uppercase; color: var(--ink-soft); opacity: 0.7;
 }
 .payment-row .pr-value.muted { color: var(--ink-soft); opacity: 0.7; font-weight: 500; }
+.payment-row .pr-value.discount { color: #16A34A; font-weight: 600; }
 .payment-row.note { display: block; padding: 10px 28px 14px; }
 .payment-row.note .pr-foot { font-size: 12px; color: var(--ink-soft); opacity: 0.75; font-weight: 400; line-height: 1.5; }
 @media (max-width: 860px) {
@@ -2936,7 +2937,7 @@ renderCommon('rica');
       <div class="payment-row group-head"><span class="pr-label">One-Time &amp; Monthly Fees</span></div>
       <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(FEES.feeToSecure + FEES.smartMoveIn)}</span></div>
       <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name}</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
-      ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">Local student</span></div><span class="pr-value muted">− ${fmt(discount)}</span></div>` : ''}
+      ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">Local student</span></div><span class="pr-value discount">− ${fmt(discount)}</span></div>` : ''}
       <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
       <div class="payment-row group-head"><span class="pr-label">Refundable</span></div>
       <div class="payment-row"><div><span class="pr-label">Security Deposit</span><span class="pr-note">Room rental 50% + 8% SST, refundable</span></div><span class="pr-value">${fmt(securityDeposit)}</span></div>
