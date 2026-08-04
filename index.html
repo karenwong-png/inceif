@@ -753,6 +753,11 @@ section { padding: 100px 40px; position: relative; }
 }
 .payment-row .pr-value.muted { color: var(--ink-soft); opacity: 0.7; font-weight: 500; }
 .payment-row .pr-value.discount { color: #16A34A; font-weight: 600; }
+.payment-row .pr-value .pr-was {
+  text-decoration: line-through;
+  color: var(--ink-soft); opacity: 0.6;
+  font-weight: 500; font-size: 15px; margin-right: 6px;
+}
 .payment-row.note { display: block; padding: 10px 28px 14px; }
 .payment-row.note .pr-foot { font-size: 12px; color: var(--ink-soft); opacity: 0.75; font-weight: 400; line-height: 1.5; }
 @media (max-width: 860px) {
@@ -2613,15 +2618,17 @@ footer {
   <div class="section-head">
     <div class="kicker">Reference Calculation of Payment</div>
     <h2>What you actually <em>pay</em>.</h2>
-    <p>Pick your student type, residence and room type for an estimated first-payment breakdown — based on a 12-month tenancy, all SST-inclusive.</p>
+    <p>Pick your tenant type, residence and room type for an estimated first-payment breakdown — based on a 12-month tenancy, all SST-inclusive.</p>
   </div>
   <div class="calc-wrap">
     <div class="calc-controls">
       <label class="calc-field">
-        <span>Student Type</span>
-        <select id="calc-student">
-          <option value="international">International Student</option>
-          <option value="local">Local Student</option>
+        <span>Tenant Type</span>
+        <select id="calc-tenant">
+          <option value="intl-student">International Student</option>
+          <option value="local-student">Local Student</option>
+          <option value="intl-staff">International Staff</option>
+          <option value="local-staff">Local Staff</option>
         </select>
       </label>
       <label class="calc-field">
@@ -2649,7 +2656,7 @@ footer {
     <p class="payment-disclaimer">
       <strong>Note:</strong> Prices are inclusive of 8% SST. Any adjustments or changes will be determined based on the monthly rental amount and the agreed rental terms.<br><br>
       <strong>Terms &amp; Conditions:</strong> Prices shown are for reference only. Figures are based on a <strong>12-month tenancy</strong>; tenancies of less than 12 months carry a different rental rate. Final figures will be confirmed by the BeLive team before signing.<br><br>
-      <strong>Student Type:</strong> Local students enjoy an RM120 discount on the rental charges. Select your student type above for the applicable breakdown.
+      <strong>Tenant Type:</strong> Local students and local staff pay the same rate — an RM120 discount on the rental charges, with the security deposit waived. International students and international staff also pay the same rate as each other. Select your tenant type above for the applicable breakdown.
     </p>
   </div>
   <div class="section-cta-row">
@@ -2897,12 +2904,21 @@ renderCommon('rica');
 
 // --- Payment calculator ---
 (function initPaymentCalculator() {
-  const studentSel = document.getElementById('calc-student');
+  const tenantSel = document.getElementById('calc-tenant');
   const condoSel = document.getElementById('calc-condo');
   const roomSel = document.getElementById('calc-room');
   const carparkSel = document.getElementById('calc-carpark');
   const breakdown = document.getElementById('calc-breakdown');
-  if (!studentSel || !condoSel || !roomSel || !carparkSel || !breakdown) return;
+  if (!tenantSel || !condoSel || !roomSel || !carparkSel || !breakdown) return;
+
+  // Pricing depends only on local vs international: students and staff of the
+  // same origin pay the same rate.
+  const TENANT_TYPES = {
+    'intl-student':  { label: 'International Student', local: false },
+    'local-student': { label: 'Local Student',         local: true  },
+    'intl-staff':    { label: 'International Staff',   local: false },
+    'local-staff':   { label: 'Local Staff',           local: true  },
+  };
 
   const condoLabels = {
     rica: 'Rica Residence Sentul',
@@ -2911,12 +2927,13 @@ renderCommon('rica');
     unio: 'Unio Residence @ Kepong',
   };
   const FEES = {
-    feeToSecure: 430.92,
-    smartMoveIn: 140.40,
+    adminMoveIn: 529,      // one-time admin & move-in fee (SST-inclusive)
     carPark: 100,
     accessCard: 150,
-    rentalAddOn: 200,      // added to room price for all students
-    localDiscount: 120,    // deducted for local students
+    inceifProcessing: 150, // INCEIF processing fee — charged to every tenant type
+    rentalAddOn: 200,      // added to room price for all tenants
+    localDiscount: 120,    // deducted for local students & local staff
+    depositMultiple: 2,    // security deposit = room rental x 2 (multiple not shown to users)
   };
   const fmt = (n) => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const rentOf = (room) => room.rent || 0;
@@ -2930,29 +2947,34 @@ renderCommon('rica');
     const rooms = roomData[condoSel.value].rooms;
     const room = rooms[roomSel.value] || rooms[0];
     const rent = rentOf(room);
-    const isLocal = studentSel.value === 'local';
+    const tenant = TENANT_TYPES[tenantSel.value] || TENANT_TYPES['intl-student'];
+    const isLocal = tenant.local;
     const rentalCharges = rent + FEES.rentalAddOn;
     const discount = isLocal ? FEES.localDiscount : 0;
     const wantsCarpark = carparkSel.value === 'yes';
     const carpark = wantsCarpark ? FEES.carPark : 0;
-    const securityDeposit = rent * 0.5 * 1.08;   // based on room rental: 50% + 8% SST
-    const total = FEES.feeToSecure + FEES.smartMoveIn + rentalCharges - discount + carpark + securityDeposit + FEES.accessCard;
+    // Deposit follows the room rental; waived for local students & local staff.
+    const depositBeforeWaiver = rent * FEES.depositMultiple;
+    const securityDeposit = isLocal ? 0 : depositBeforeWaiver;
+    const total = FEES.adminMoveIn + FEES.inceifProcessing
+      + rentalCharges - discount + carpark + securityDeposit + FEES.accessCard;
 
     breakdown.innerHTML = `
       <div class="payment-row group-head"><span class="pr-label">One-Time &amp; Monthly Fees</span></div>
-      <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time, incl. 8% SST</span></div><span class="pr-value">${fmt(FEES.feeToSecure + FEES.smartMoveIn)}</span></div>
-      <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name}</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
-      ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">Local student</span></div><span class="pr-value discount">− ${fmt(discount)}</span></div>` : ''}
-      <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Admin &amp; Move-In Fee</span><span class="pr-note">One-time · incl. SST</span></div><span class="pr-value">${fmt(FEES.adminMoveIn)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">INCEIF Processing Fee</span><span class="pr-note">One-time · incl. SST</span></div><span class="pr-value">${fmt(FEES.inceifProcessing)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Rental Charges</span><span class="pr-note">${condoLabels[condoSel.value]} — ${room.name} · incl. SST</span></div><span class="pr-value">${fmt(rentalCharges)}</span></div>
+      ${isLocal ? `<div class="payment-row"><div><span class="pr-label">Discount</span><span class="pr-note">${tenant.label} rate</span></div><span class="pr-value discount">− ${fmt(discount)}</span></div>` : ''}
+      <div class="payment-row"><div><span class="pr-label">Car Park (Monthly)</span><span class="pr-note">${wantsCarpark ? 'Reserved bay added · incl. SST' : 'Not included'}</span></div><span class="pr-value${wantsCarpark ? '' : ' muted'}">${wantsCarpark ? fmt(FEES.carPark) : '—'}</span></div>
       <div class="payment-row group-head"><span class="pr-label">Refundable</span></div>
-      <div class="payment-row"><div><span class="pr-label">Security Deposit</span><span class="pr-note">Room rental 50% + 8% SST, refundable</span></div><span class="pr-value">${fmt(securityDeposit)}</span></div>
-      <div class="payment-row"><div><span class="pr-label">Access Card Deposit</span><span class="pr-note">Refundable</span></div><span class="pr-value">${fmt(FEES.accessCard)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Security Deposit</span><span class="pr-note">${isLocal ? 'Waived for local students &amp; local staff' : 'Based on room rental · refundable · incl. SST'}</span></div><span class="pr-value${isLocal ? ' discount' : ''}">${isLocal ? `<span class="pr-was">${fmt(depositBeforeWaiver)}</span>${fmt(0)}` : fmt(securityDeposit)}</span></div>
+      <div class="payment-row"><div><span class="pr-label">Access Card Deposit</span><span class="pr-note">Refundable · incl. SST</span></div><span class="pr-value">${fmt(FEES.accessCard)}</span></div>
       <div class="payment-row note"><span class="pr-foot">Refundable upon successful move-out inspection and subject to the tenancy agreement &amp; applicable T&amp;Cs.</span></div>
-      <div class="payment-row total"><div><span class="pr-label">Total First Payment</span><span class="pr-note">12-month tenancy · ${isLocal ? 'Local' : 'International'} student · incl. 8% SST</span></div><span class="pr-value">${fmt(total)}</span></div>
+      <div class="payment-row total"><div><span class="pr-label">Total First Payment</span><span class="pr-note">12-month tenancy · ${tenant.label} · incl. SST</span></div><span class="pr-value">${fmt(total)}</span></div>
     `;
   }
 
-  studentSel.addEventListener('change', render);
+  tenantSel.addEventListener('change', render);
   condoSel.addEventListener('change', () => { populateRooms(); render(); });
   roomSel.addEventListener('change', render);
   carparkSel.addEventListener('change', render);
