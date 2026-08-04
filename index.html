@@ -987,9 +987,9 @@ section { padding: 100px 40px; position: relative; }
   box-shadow: 0 16px 34px -18px rgba(0,0,0,0.65);
 }
 /* All three clips are 9:16 portrait, so pinning the ratio avoids layout shift
-   before metadata loads. object-fit lets the landscape poster stills fill the
-   portrait frame instead of letterboxing; the video itself is already 9:16 and
-   so is never cropped. */
+   before metadata loads. No poster image is set — each source carries a #t=0.5
+   media fragment so the browser paints a real frame from the video itself as
+   the cover. The frame matches the tile ratio, so nothing is cropped. */
 .res-videos video {
   width: 100%; display: block;
   aspect-ratio: 9 / 16;
@@ -2348,22 +2348,22 @@ footer {
       <div class="rv-head">Video Tour</div>
       <div class="rv-grid">
         <figure>
-          <video controls preload="metadata" playsinline poster="UNIO_condo.jpg">
-            <source src="Unio%20Residence,%20Kepong_compressed.mp4" type="video/mp4">
+          <video controls preload="metadata" playsinline>
+            <source src="Unio%20Residence,%20Kepong_compressed.mp4#t=0.5" type="video/mp4">
             Your browser does not support embedded video.
           </video>
           <figcaption>Residence Tour</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="UNIO_games_room.png">
-            <source src="Unio_Residence_Facilities_compressed.mp4" type="video/mp4">
+          <video controls preload="metadata" playsinline>
+            <source src="Unio_Residence_Facilities_compressed.mp4#t=0.5" type="video/mp4">
             Your browser does not support embedded video.
           </video>
           <figcaption>Facilities</figcaption>
         </figure>
         <figure>
-          <video controls preload="metadata" playsinline poster="UNIO_Hot_Dip_Pool.png">
-            <source src="Unio_Residence_MRT_compressed.mp4" type="video/mp4">
+          <video controls preload="metadata" playsinline>
+            <source src="Unio_Residence_MRT_compressed.mp4#t=0.5" type="video/mp4">
             Your browser does not support embedded video.
           </video>
           <figcaption>MRT Connectivity</figcaption>
