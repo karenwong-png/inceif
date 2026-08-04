@@ -967,6 +967,46 @@ section { padding: 100px 40px; position: relative; }
   .res-facility-photos { grid-template-columns: 1fr; }
 }
 
+/* Residence video gallery — spans both panel columns, below photo + info */
+.res-videos { grid-column: 1 / -1; }
+.res-videos .rv-head {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(250,247,242,0.6); margin-bottom: 14px;
+}
+.res-videos .rv-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+  align-items: start;
+  /* Capped: these are 9:16 clips, so full-width columns would run ~700px tall */
+  max-width: 840px; margin: 0 auto;
+}
+.res-videos figure {
+  position: relative; margin: 0;
+  border-radius: 18px; overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 16px 34px -18px rgba(0,0,0,0.65);
+}
+/* All three clips are 9:16 portrait, so pinning the ratio avoids layout shift
+   before metadata loads. object-fit lets the landscape poster stills fill the
+   portrait frame instead of letterboxing; the video itself is already 9:16 and
+   so is never cropped. */
+.res-videos video {
+  width: 100%; display: block;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  background: #0E0E10;
+}
+.res-videos figcaption {
+  position: absolute; left: 12px; top: 12px;
+  background: rgba(14,14,16,0.78); color: rgba(250,247,242,0.95);
+  font-size: 11px; font-weight: 500;
+  padding: 5px 10px; border-radius: 100px;
+  backdrop-filter: blur(8px); pointer-events: none;
+}
+@media (max-width: 700px) {
+  .res-videos .rv-grid { grid-template-columns: minmax(0, 320px); justify-content: center; }
+}
+
 /* Room cards */
 .rooms-strip {
   margin-top: 60px; max-width: 1280px; margin-left: auto; margin-right: auto;
@@ -2304,6 +2344,32 @@ footer {
         <figure><img src="UNIO_Floating_Gym.png" alt="Unio Residence facility — floating gym"><figcaption>Floating Gym</figcaption></figure>
       </div>
     </div>
+    <div class="res-videos">
+      <div class="rv-head">Video Tour</div>
+      <div class="rv-grid">
+        <figure>
+          <video controls preload="metadata" playsinline poster="UNIO_condo.jpg">
+            <source src="Unio%20Residence,%20Kepong_compressed.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption>Residence Tour</figcaption>
+        </figure>
+        <figure>
+          <video controls preload="metadata" playsinline poster="UNIO_games_room.png">
+            <source src="Unio_Residence_Facilities_compressed.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption>Facilities</figcaption>
+        </figure>
+        <figure>
+          <video controls preload="metadata" playsinline poster="UNIO_Hot_Dip_Pool.png">
+            <source src="Unio_Residence_MRT_compressed.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption>MRT Connectivity</figcaption>
+        </figure>
+      </div>
+    </div>
   </div>
 
   <!-- ROOM CARDS -->
@@ -2900,6 +2966,20 @@ renderCommon('rica');
   });
   lightbox.addEventListener('click', close);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+// --- Residence videos: drop any tile whose file is missing ---
+// preload="metadata" means a 404 surfaces before the user clicks play, so a
+// missing file collapses its tile instead of showing a dead player.
+(function initResidenceVideos() {
+  document.querySelectorAll('.res-videos source').forEach(source => {
+    source.addEventListener('error', () => {
+      const figure = source.closest('figure');
+      const gallery = source.closest('.res-videos');
+      if (figure) figure.remove();
+      if (gallery && !gallery.querySelector('figure')) gallery.remove();
+    });
+  });
 })();
 
 // --- Payment calculator ---
