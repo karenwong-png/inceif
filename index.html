@@ -1451,8 +1451,8 @@ table.compare {
   }
   table.compare tbody td:nth-child(2)::before { content: 'Rica Residence Sentul'; }
   table.compare tbody td:nth-child(3)::before { content: 'The Birch'; }
-  table.compare tbody td:nth-child(4)::before { content: 'Duta Park Residences'; }
-  table.compare tbody td:nth-child(5)::before { content: 'Unio Residence @ Kepong'; }
+  /* Duta Park Residences column hidden — Unio shifts up to the 4th cell */
+  table.compare tbody td:nth-child(4)::before { content: 'Unio Residence @ Kepong'; }
   table.compare tbody td[colspan]::before { content: none; }
   table.compare tbody tr td:last-child { border-bottom: none; }
   .compare .num-cell { font-size: 20px; }
@@ -2201,7 +2201,7 @@ footer {
 <!-- RESIDENCES -->
 <section class="residences" id="residences">
   <div class="section-head">
-    <div class="kicker">Four Iconic Residences</div>
+    <div class="kicker">Three Iconic Residences</div>
     <h2 style="color:var(--paper);">Pick the address that <em>feels</em><br>like you.</h2>
     <p>Each residence has its own personality — from family-friendly mid-rises to resort-style towers.</p>
   </div>
@@ -2209,7 +2209,9 @@ footer {
   <div class="res-tabs">
     <button class="res-tab active" data-tab="rica">Rica Residence Sentul</button>
     <button class="res-tab" data-tab="birch">The Birch</button>
+    <!-- Duta Park Residences hidden
     <button class="res-tab" data-tab="duta">Duta Park Residences</button>
+    -->
     <button class="res-tab" data-tab="unio">Unio Residence @ Kepong</button>
   </div>
 
@@ -2255,7 +2257,8 @@ footer {
     </div>
   </div>
 
-  <!-- DUTA PARK RESIDENCES -->
+  <!-- DUTA PARK RESIDENCES — hidden -->
+  <!--
   <div class="res-panel" data-panel="duta">
     <div class="res-photo">
       <img src="duta_park_condo.jpg" alt="Duta Park Residences">
@@ -2275,6 +2278,7 @@ footer {
       </div>
     </div>
   </div>
+  -->
 
   <!-- UNIO RESIDENCE @ KEPONG -->
   <div class="res-panel" data-panel="unio">
@@ -2497,7 +2501,7 @@ footer {
   <div class="section-head">
     <div class="kicker">Side by Side</div>
     <h2>Compare your <em>options.</em></h2>
-    <p>A quick look at how the four residences stack up.</p>
+    <p>A quick look at how the three residences stack up.</p>
   </div>
   <div class="compare-table-wrap">
     <table class="compare">
@@ -2506,7 +2510,7 @@ footer {
           <th>Detail</th>
           <th>Rica Residence Sentul <span class="tag">Sentul</span></th>
           <th>The Birch <span class="tag">Jalan Ipoh</span></th>
-          <th>Duta Park Residences <span class="tag">Sentul</span></th>
+          <!-- <th>Duta Park Residences <span class="tag">Sentul</span></th> -->
           <th>Unio Residence @ Kepong <span class="tag">Kepong</span></th>
         </tr>
       </thead>
@@ -2515,14 +2519,14 @@ footer {
           <td>Community Atmosphere</td>
           <td>Connected city living in Sentul.</td>
           <td>Vibrant &amp; central, on Jalan Ipoh.</td>
-          <td>Close-to-campus convenience in Sentul.</td>
+          <!-- <td>Close-to-campus convenience in Sentul.</td> -->
           <td>Modern &amp; spacious in Kepong.</td>
         </tr>
         <tr>
           <td>Distance from INCEIF University</td>
           <td><span class="num-cell">5.5 km</span><br><span class="td-sub">~13-min drive</span></td>
           <td><span class="num-cell">3.7 km</span><br><span class="td-sub">~16-min drive</span></td>
-          <td><span class="num-cell">4.8 km</span><br><span class="td-sub">~11-min drive</span></td>
+          <!-- <td><span class="num-cell">4.8 km</span><br><span class="td-sub">~11-min drive</span></td> -->
           <td><span class="num-cell">8.6 km</span><br><span class="td-sub">~20-min drive</span></td>
         </tr>
         <tr>
@@ -2539,11 +2543,11 @@ footer {
             <li>Queen — RM800</li>
             <li>Single — RM700</li>
           </ul></td>
-          <td><ul>
+          <!-- <td><ul>
             <li>Master — RM1,100</li>
             <li>Queen — RM800</li>
             <li>Single — RM700</li>
-          </ul></td>
+          </ul></td> -->
           <td><ul>
             <li>Master — RM1,100</li>
             <li>Queen Balcony — RM850</li>
@@ -2555,12 +2559,12 @@ footer {
           <td>Key Facilities</td>
           <td><ul><li>Sauna</li><li>Gym</li><li>BBQ Area</li></ul></td>
           <td><ul><li>Swimming Pool</li><li>Gym</li><li>BBQ Area</li></ul></td>
-          <td><ul><li>Swimming Pool</li><li>Reading Lounge</li><li>Gym</li></ul></td>
+          <!-- <td><ul><li>Swimming Pool</li><li>Reading Lounge</li><li>Gym</li></ul></td> -->
           <td><ul><li>Games Room</li><li>Hot Dip Pool</li><li>Floating Gym</li></ul></td>
         </tr>
         <tr>
           <td>Accessibility</td>
-          <td colspan="4">All four are well-connected within Kuala Lumpur — close to KTM/LRT/MRT stations, major roads (Jalan Kuching, DUKE, MRR2) and the city centre.</td>
+          <td colspan="3">All three are well-connected within Kuala Lumpur — close to KTM/LRT/MRT stations, major roads (Jalan Kuching, DUKE, MRR2) and the city centre.</td>
         </tr>
       </tbody>
     </table>
@@ -2625,7 +2629,7 @@ footer {
         <select id="calc-condo">
           <option value="rica">Rica Residence Sentul</option>
           <option value="birch">The Birch</option>
-          <option value="duta">Duta Park Residences</option>
+          <!-- <option value="duta">Duta Park Residences</option> -->
           <option value="unio">Unio Residence @ Kepong</option>
         </select>
       </label>
@@ -2717,19 +2721,20 @@ const roomData = {
       { img: 'TB_Yard.jpeg',    label: 'Yard',           alt: 'The Birch yard' },
     ],
   },
-  duta: {
-    label: 'Duta Park Residences',
-    rooms: [
-      { name: 'Master Room',   rent: 1100, disp: 'RM1,100', img: 'DP_QP.jpg' },
-      { name: 'Queen Bedroom',  rent: 800, disp: 'RM800',   img: 'DP_QC.jpg' },
-      { name: 'Single Bedroom', rent: 700, disp: 'RM700',   img: 'DP_SC.JPG' },
-    ],
-    common: [
-      { img: 'DP_Entrance.jpg', label: 'Entrance',                 alt: 'Duta Park unit entrance' },
-      { img: 'DP_Dining.jpg',   label: 'Dining Area',              alt: 'Duta Park dining area' },
-      { img: 'DP_Kitchen.jpg',  label: 'Shared Kitchen & Laundry', alt: 'Duta Park shared kitchen and laundry' },
-    ],
-  },
+  // Duta Park Residences hidden
+  // duta: {
+  //   label: 'Duta Park Residences',
+  //   rooms: [
+  //     { name: 'Master Room',   rent: 1100, disp: 'RM1,100', img: 'DP_QP.jpg' },
+  //     { name: 'Queen Bedroom',  rent: 800, disp: 'RM800',   img: 'DP_QC.jpg' },
+  //     { name: 'Single Bedroom', rent: 700, disp: 'RM700',   img: 'DP_SC.JPG' },
+  //   ],
+  //   common: [
+  //     { img: 'DP_Entrance.jpg', label: 'Entrance',                 alt: 'Duta Park unit entrance' },
+  //     { img: 'DP_Dining.jpg',   label: 'Dining Area',              alt: 'Duta Park dining area' },
+  //     { img: 'DP_Kitchen.jpg',  label: 'Shared Kitchen & Laundry', alt: 'Duta Park shared kitchen and laundry' },
+  //   ],
+  // },
   unio: {
     label: 'Unio Residence @ Kepong',
     rooms: [
@@ -2902,7 +2907,7 @@ renderCommon('rica');
   const condoLabels = {
     rica: 'Rica Residence Sentul',
     birch: 'The Birch',
-    duta: 'Duta Park Residences',
+    // duta: 'Duta Park Residences',   // hidden
     unio: 'Unio Residence @ Kepong',
   };
   const FEES = {
@@ -2974,7 +2979,7 @@ window.addEventListener('load', () => {
   const CATEGORIES = {
     residence: {
       label: 'Residences', icon: '🏠', color: '#FF6B1A',
-      places: 'INCEIF University (★) · Rica Residence Sentul · The Birch · Duta Park Residences · Unio Residence @ Kepong',
+      places: 'INCEIF University (★) · Rica Residence Sentul · The Birch · Unio Residence @ Kepong',
       stat: '<strong>City-centre campus</strong> with student living all around',
       defaultOn: true,
     },
@@ -3000,7 +3005,7 @@ window.addEventListener('load', () => {
     { cat:'residence',  name:'INCEIF University',                    desc:'Your campus — the ★ subject property in central Kuala Lumpur.', coords:INCEIF, home:true },
     { cat:'residence',  name:'Rica Residence Sentul',               desc:'Serviced residence in the Sentul regeneration zone.', coords:[3.1778074, 101.6847228], dist:5.5 },
     { cat:'residence',  name:'The Birch',                            desc:'Freehold residential tower on Jalan Ipoh.', coords:[3.1763944, 101.6815058], dist:3.7 },
-    { cat:'residence',  name:'Duta Park Residences',                 desc:'High-rise living off Jalan Sentul / Jalan Kuching.', coords:[3.1702492, 101.6858202], dist:4.8 },
+    // { cat:'residence',  name:'Duta Park Residences',                 desc:'High-rise living off Jalan Sentul / Jalan Kuching.', coords:[3.1702492, 101.6858202], dist:4.8 },   // hidden
     { cat:'residence',  name:'Unio Residence @ Kepong',              desc:'Modern condominium in Kepong.', coords:[3.2088385, 101.6492117], dist:8.6 },
 
     // Healthcare
