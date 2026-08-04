@@ -974,10 +974,11 @@ section { padding: 100px 40px; position: relative; }
   color: rgba(250,247,242,0.6); margin-bottom: 14px;
 }
 .res-videos .rv-grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;
   align-items: start;
-  /* Capped: these are 9:16 clips, so full-width columns would run ~700px tall */
-  max-width: 840px; margin: 0 auto;
+  /* Capped: these are 9:16 clips, so full-width columns would run ~700px tall.
+     1120px keeps a 4-up row at the same tile size a 3-up row had at 840px. */
+  max-width: 1120px; margin: 0 auto;
 }
 .res-videos figure {
   position: relative; margin: 0;
@@ -1003,8 +1004,13 @@ section { padding: 100px 40px; position: relative; }
   padding: 5px 10px; border-radius: 100px;
   backdrop-filter: blur(8px); pointer-events: none;
 }
+/* Below the 4-up width, drop to 2-up before going single-column, so tiles never
+   shrink to slivers on tablets. */
+@media (max-width: 1060px) {
+  .res-videos .rv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 560px; }
+}
 @media (max-width: 700px) {
-  .res-videos .rv-grid { grid-template-columns: minmax(0, 320px); justify-content: center; }
+  .res-videos .rv-grid { grid-template-columns: minmax(0, 320px); justify-content: center; max-width: none; }
 }
 
 /* Room cards */
@@ -2360,6 +2366,13 @@ footer {
             Your browser does not support embedded video.
           </video>
           <figcaption>Facilities</figcaption>
+        </figure>
+        <figure>
+          <video controls preload="metadata" playsinline>
+            <source src="Unio_Pool_compressed.mp4#t=0.5" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          <figcaption>Pool</figcaption>
         </figure>
         <figure>
           <video controls preload="metadata" playsinline>
