@@ -1013,6 +1013,31 @@ section { padding: 100px 40px; position: relative; }
   .res-videos .rv-grid { grid-template-columns: minmax(0, 320px); justify-content: center; max-width: none; }
 }
 
+/* "Getting to INCEIF University" route infographic — one per residence.
+   Wide, text-dense artwork, so it runs the full panel width and opens in the
+   existing lightbox for detail. */
+.res-getting-there { grid-column: 1 / -1; margin-top: 8px; }
+.res-getting-there .gt-head {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+  color: rgba(250,247,242,0.6); margin-bottom: 14px;
+}
+.res-getting-there figure {
+  margin: 0; position: relative;
+  border-radius: 18px; overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 16px 34px -18px rgba(0,0,0,0.65);
+}
+/* No fixed ratio — the three infographics differ slightly (1.50 vs 1.64). */
+.res-getting-there img { width: 100%; height: auto; display: block; }
+.res-getting-there figcaption {
+  position: absolute; right: 12px; bottom: 12px;
+  background: rgba(14,14,16,0.78); color: rgba(250,247,242,0.95);
+  font-size: 11px; font-weight: 500;
+  padding: 5px 10px; border-radius: 100px;
+  backdrop-filter: blur(8px); pointer-events: none;
+}
+
 /* Room cards */
 .rooms-strip {
   margin-top: 60px; max-width: 1280px; margin-left: auto; margin-right: auto;
@@ -2028,6 +2053,7 @@ footer {
 /* ---------- LIGHTBOX (click condo images to enlarge) ---------- */
 .residences .res-photo img,
 .residences .res-facility-photos img,
+.residences .res-getting-there img,
 .residences .room-img img,
 .residences .common-img img { cursor: zoom-in; }
 .lightbox {
@@ -2285,6 +2311,14 @@ footer {
         <figure><img src="rica_bbq.jpg" alt="Rica Residence facility — BBQ area"><figcaption>BBQ Area</figcaption></figure>
       </div>
     </div>
+    <div class="res-getting-there">
+      <div class="gt-head">Getting to INCEIF University</div>
+      <figure>
+        <img src="BeLive_Rica_Inceif.jpg" loading="lazy" decoding="async"
+             alt="Route guide from Rica Residence Sentul to INCEIF University">
+        <figcaption>Tap to enlarge</figcaption>
+      </figure>
+    </div>
   </div>
 
   <!-- THE BIRCH, JALAN IPOH -->
@@ -2305,6 +2339,14 @@ footer {
         <figure><img src="TB-Gymnasium.jpeg" alt="The Birch facility — gymnasium"><figcaption>Gym</figcaption></figure>
         <figure><img src="TB-BBQ-Area.jpeg" alt="The Birch facility — BBQ area"><figcaption>BBQ Area</figcaption></figure>
       </div>
+    </div>
+    <div class="res-getting-there">
+      <div class="gt-head">Getting to INCEIF University</div>
+      <figure>
+        <img src="BeLive_The_Birch_Inceif.jpg" loading="lazy" decoding="async"
+             alt="Route guide from The Birch, Jalan Ipoh to INCEIF University">
+        <figcaption>Tap to enlarge</figcaption>
+      </figure>
     </div>
   </div>
 
@@ -2382,6 +2424,14 @@ footer {
           <figcaption>MRT Connectivity</figcaption>
         </figure>
       </div>
+    </div>
+    <div class="res-getting-there">
+      <div class="gt-head">Getting to INCEIF University</div>
+      <figure>
+        <img src="BeLive_Unio_Inceif.jpg" loading="lazy" decoding="async"
+             alt="Route guide from Unio Residence @ Kepong to INCEIF University">
+        <figcaption>Tap to enlarge</figcaption>
+      </figure>
     </div>
   </div>
 
