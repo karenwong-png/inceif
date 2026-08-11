@@ -2053,19 +2053,57 @@ footer {
 /* ---------- FLOATING BOOK NOW BUTTON ---------- */
 /* Sits below the lightbox (9999) so enlarging an image covers it, and clear of
    the top nav (100), which never overlaps the bottom-right corner. */
+/* Three layers, each owning one transform, so nothing fights:
+     anchor  — hover/focus lift (transition)
+     .bf-glow — pulsing halo behind the artwork
+     .bf-pulse — idle breathing scale (animation)
+   Keeping the entrance on opacity alone matters: an animation with fill-mode
+   both keeps overriding :hover transforms after it ends, which would kill the
+   lift. */
 .booking-float {
   position: fixed; right: 20px; bottom: 20px; z-index: 500;
   display: block; width: 132px; line-height: 0;
-  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.38));
   transition: transform 0.25s ease;
-  animation: bookingFloatIn 0.45s ease both 0.6s;
+  animation: bookingFadeIn 0.45s ease both 0.6s;
 }
-.booking-float:hover, .booking-float:focus-visible { transform: translateY(-5px) scale(1.04); }
+.booking-float:hover, .booking-float:focus-visible { transform: translateY(-5px); }
 .booking-float:focus-visible { outline: 3px solid var(--orange); outline-offset: 6px; border-radius: 12px; }
-.booking-float img { width: 100%; height: auto; display: block; }
-@keyframes bookingFloatIn {
-  from { opacity: 0; transform: translateY(16px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+
+.booking-float .bf-pulse {
+  display: block; transform-origin: 50% 62%;
+  animation: bookingPulse 2.6s ease-in-out 1.2s infinite;
+}
+/* Settle to a steady state while hovered so the lift reads cleanly. */
+.booking-float:hover .bf-pulse,
+.booking-float:focus-visible .bf-pulse { animation-play-state: paused; }
+/* Shadow lives on the image, not the anchor: a filter on the anchor would also
+   drop-shadow the glow layer and smudge it. */
+.booking-float img {
+  width: 100%; height: auto; display: block;
+  filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.38));
+}
+
+/* Halo sits behind the CTA bar in the artwork, not the whole PNG box, since the
+   image is an irregular cut-out with transparent space top and bottom. */
+.booking-float .bf-glow {
+  position: absolute; left: 50%; top: 62%;
+  width: 78%; aspect-ratio: 1; margin: -39% 0 0 -39%;
+  border-radius: 50%; pointer-events: none; z-index: -1;
+  background: radial-gradient(circle, rgba(255,107,26,0.5) 0%, rgba(255,107,26,0) 70%);
+  animation: bookingGlow 2.6s ease-in-out 1.2s infinite;
+}
+
+@keyframes bookingFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes bookingPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.055); }
+}
+@keyframes bookingGlow {
+  0%, 100% { transform: scale(0.85); opacity: 0.35; }
+  50%      { transform: scale(1.15); opacity: 0.75; }
 }
 @media (max-width: 700px) {
   .booking-float { width: 96px; right: 12px; bottom: 12px; }
@@ -2073,6 +2111,8 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .booking-float { animation: none; transition: none; }
   .booking-float:hover, .booking-float:focus-visible { transform: none; }
+  .booking-float .bf-pulse, .booking-float .bf-glow { animation: none; }
+  .booking-float .bf-glow { display: none; }
 }
 @media print { .booking-float { display: none; } }
 
@@ -2843,8 +2883,11 @@ footer {
 
 <!-- Floating Book Now CTA -->
 <a class="booking-float" href="https://bit.ly/BeLive_INCEIF" target="_blank" rel="noopener">
-  <img src="Booking_Button.png" width="1024" height="1536"
-       alt="Book now — enquire about a BeLive room at INCEIF University">
+  <span class="bf-glow" aria-hidden="true"></span>
+  <span class="bf-pulse">
+    <img src="Booking_Button.png" width="1024" height="1536"
+         alt="Book now — enquire about a BeLive room at INCEIF University">
+  </span>
 </a>
 
 <!-- Lightbox for enlarging condo images -->
