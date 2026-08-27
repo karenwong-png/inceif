@@ -1610,6 +1610,13 @@ table.compare {
   height: 760px; width: 100%;
   z-index: 0;
 }
+/* Mute the OpenStreetMap basemap toward the pale tone the page was designed
+   against. Applied to the tile pane only, so the orange rings, markers, labels
+   and popups — which live in the overlay, marker and popup panes — keep their
+   full colour and contrast. */
+#vitrox-map .leaflet-tile-pane {
+  filter: saturate(0.32) brightness(1.06) contrast(0.92) sepia(0.06);
+}
 /* Floating overlay cards on the map */
 .map-overlay {
   position: absolute; z-index: 2;
@@ -3247,9 +3254,15 @@ window.addEventListener('load', () => {
   ];
 
   const map = L.map('vitrox-map', { scrollWheelZoom: false, zoomControl: true }).setView(INCEIF, 13);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  // OpenStreetMap standard tiles: free, no API key, no account. Replaces CARTO's
+  // basemaps.cartocdn.com light_all, which rate-limits anonymous use.
+  // The {s} subdomain and {r} retina placeholders are dropped — OSM serves from a
+  // single host and has no @2x tiles.
+  // OSM standard is a full-colour style, so .leaflet-tile-pane carries a filter
+  // that mutes it back toward the pale basemap this page was designed against.
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   // Catchment rings around the subject — inner 5 km + outer 10 km
