@@ -53,13 +53,21 @@ body {
 /* ---------- NAV ---------- */
 nav.top {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; justify-content: space-between; align-items: center;
+  /* Three tracks with equal flanks, so the link list is centred on the viewport
+     rather than merely sitting between two unequal neighbours. minmax(0, 1fr)
+     keeps the flanks from growing past their share and shifting the centre. */
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center; gap: 16px;
   padding: 18px 40px;
   background: rgba(250, 247, 242, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--line);
 }
+nav.top > .brand { justify-self: start; min-width: 0; }
+nav.top > ul { justify-self: center; }
+nav.top > .nav-right { justify-self: end; }
+.nav-right { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .brand {
   display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
   font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 22px;
@@ -103,6 +111,28 @@ nav ul a:hover::after { transform: scaleX(1); }
 .cta-btn .arrow { transition: transform 0.25s; }
 .cta-btn:hover .arrow { transform: translateX(4px); }
 
+/* Centring needs room for equal flanks either side of the link row. Tighten the
+   links, then drop the brand tagline, before giving up: below 1024px there is no
+   room for three parts, so fall back to the previous space-between layout rather
+   than letting the brand overlap the links. */
+@media (max-width: 1440px) { nav ul { gap: 24px; } }
+@media (max-width: 1360px) {
+  nav.top { padding: 18px 24px; }
+  nav ul { gap: 16px; }
+  nav ul a { font-size: 13px; }
+  .brand-tagline { display: none; }
+}
+@media (max-width: 1280px) {
+  /* Below this the three parts cannot sit with equal flanks. Flex lays them out
+     sequentially, so the links stay visible and simply stop being centred
+     rather than overlapping their neighbours. */
+  nav.top { display: flex; justify-content: space-between; }
+}
+@media (max-width: 1024px) {
+  /* The links no longer fit beside the brand and the CTA; showing them here is
+     what pushed the CTA past the right edge on origin/main. */
+  nav ul { display: none; }
+}
 @media (max-width: 768px) {
   nav.top { padding: 12px 16px; gap: 10px; }
   nav ul { display: none; }
@@ -117,6 +147,22 @@ nav ul a:hover::after { transform: scaleX(1); }
     padding: 9px 16px; font-size: 13px; flex: 0 0 auto;
   }
   nav.top .cta-btn .arrow { display: none; }
+}
+@media (max-width: 560px) {
+  .lang-switch select {
+    font-size: 11px; padding: 6px 20px 6px 8px;
+    max-width: 96px; text-overflow: ellipsis;
+    background-position: right 8px center;
+  }
+}
+@media (max-width: 420px) {
+  .brand-logos { gap: 6px; }
+  .brand img.logo-belive { height: 18px; }
+  .brand img.logo-vitrox { height: 22px; }
+  /* Malay and Arabic render "Book Now" longer than English, so the CTA and the
+     language control both have to give here or the CTA clips off the edge. */
+  nav.top .cta-btn { padding: 7px 9px; font-size: 11px; }
+  .lang-switch select { max-width: 64px; font-size: 10px; padding: 6px 15px 6px 6px; }
 }
 
 /* ---------- HERO ---------- */
@@ -2191,26 +2237,34 @@ footer {
 @media print { .booking-float { display: none; } }
 
 /* ---------- LANGUAGE SWITCHER ---------- */
-.lang-switch { display: flex; align-items: center; margin-left: auto; margin-right: 14px; }
-.lang-switch select {
-  font-family: 'Poppins', system-ui, sans-serif; font-size: 13px; font-weight: 500;
-  color: var(--ink); background: rgba(255,255,255,0.7);
-  border: 1px solid var(--line); border-radius: 100px;
-  padding: 7px 30px 7px 14px; cursor: pointer; appearance: none;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%230E0E10' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center; background-size: 10px;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+.lang-switch { display: flex; align-items: center; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.lang-switch select:hover { border-color: var(--orange); background-color: #fff; }
-.lang-switch select:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-@media (max-width: 900px) { .lang-switch { margin-right: 10px; } .lang-switch select { font-size: 12px; padding: 6px 26px 6px 10px; } }
+.lang-switch select {
+  appearance: none; -webkit-appearance: none;
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 13px; font-weight: 500; color: var(--ink);
+  background: transparent;
+  border: 1.5px solid var(--line); border-radius: 100px;
+  padding: 9px 30px 9px 14px; cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%230E0E10' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat; background-position: right 12px center;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.lang-switch select:hover { border-color: var(--orange); }
+.lang-switch select:focus-visible { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,26,0.15); }
+@media (max-width: 900px) { .nav-right { gap: 8px; } .lang-switch select { font-size: 12px; padding: 6px 26px 6px 10px; } }
 
 /* Arabic runs right-to-left, but the map must not: Leaflet positions its own
    controls and attribution with physical offsets, and its labels are English. */
 html[dir="rtl"] body { direction: rtl; }
 html[dir="rtl"] #vitrox-map,
 html[dir="rtl"] .leaflet-container { direction: ltr; }
-html[dir="rtl"] .lang-switch { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .lang-switch select {
+  padding: 9px 14px 9px 30px; background-position: left 12px center;
+}
 
 /* ---------- LIGHTBOX (click condo images to enlarge) ---------- */
 .residences .res-photo img,
@@ -2256,15 +2310,18 @@ html[dir="rtl"] .lang-switch { margin-left: 0; margin-right: auto; }
     <li><a href="#difference">BeLive Difference</a></li>
     <li><a href="#how-to-book">How to Book</a></li>
   </ul>
-  <div class="lang-switch">
-    <select id="lang-select" aria-label="Language / 语言 / Bahasa / اللغة">
-      <option value="en">English</option>
-      <option value="zh">中文</option>
-      <option value="ms">Bahasa Melayu</option>
-      <option value="ar">العربية</option>
-    </select>
+  <div class="nav-right">
+    <label class="lang-switch">
+      <span class="sr-only">Language</span>
+      <select id="lang-select" aria-label="Select language">
+        <option value="en">EN&nbsp;·&nbsp;English</option>
+        <option value="zh">中文&nbsp;·&nbsp;Chinese</option>
+        <option value="ms">BM&nbsp;·&nbsp;Bahasa Melayu</option>
+        <option value="ar">AR&nbsp;·&nbsp;العربية</option>
+      </select>
+    </label>
+    <a href="https://bit.ly/BeLive_INCEIF" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
   </div>
-  <a href="https://bit.ly/BeLive_INCEIF" target="_blank" rel="noopener" class="cta-btn">Book Now <span class="arrow">→</span></a>
 </nav>
 
 <!-- HERO -->
